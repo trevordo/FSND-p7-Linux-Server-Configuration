@@ -24,11 +24,11 @@ Source: [Udacity](https://www.udacity.com/account#!/development_environment)
 ```sh
 $ mv ~/Downloads/udacity_key.rsa ~/.ssh/
 ```
-3. (use your perferred terminal) change the file permission
+(use your perferred terminal) change the file permission
 ```sh
 $ chmod 600 ~/.ssh/udacity_key.rsa
 ```
-4. (use your perferred terminal) Connecting to the server for the first time 
+(use your perferred terminal) Connecting to the server for the first time 
 ```sh
 $ ssh -i ~/.ssh/udacity_key.rsa root@35.160.247.81
 ```
@@ -54,19 +54,19 @@ $ ssh-keygen
 Enter file in which to save the key... Press enter to accept default directory and name 'id_rsa'
 Enter passphrase
 ```
-7. While still logged as root change user and install the public key on the server 
+While still logged as root change user and install the public key on the server 
 ```sh
 $ sudo su - grader
 $ sudo mkdir .ssh
 $ sudo touch .ssh/authorized_keys
 ```
-8. Copy contents of Public Key (.pub) into authorized_keys file on server and save
+Copy contents of Public Key (.pub) into authorized_keys file on server and save
 ```sh
 $ sudo nano .ssh/authorized_keys
 $ sudo chmod 700 .ssh
 $ sudo chmod 644 .ssh/authorized_keys
 ```
-9. Diable password logins and change port to 220
+Diable password logins and change port to 220
 ```sh
 $ sudo nano /etc/ssh/sshd_config
 ```
@@ -87,7 +87,7 @@ Enter passphrase
 ## Configure the Uncomplicated Firewall (UFW) and add rules for incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123) 
 Source: [Ubuntu](https://help.ubuntu.com/community/UFW)
 
-1. Turn UFW on with the default set of rules:
+Turn UFW on with the default set of rules:
 ```sh
 $ sudo ufw enable
 $ sudo ufw allow 2200/tcp
@@ -104,34 +104,34 @@ Source: Udacity and [Timezone on Ubuntu.com](https://help.ubuntu.com/community/U
 $ sudo apt-get update
 $ sudo sudo apt-get upgrade
 ```
-3. Change the time zone by reconfiguring settings
+Change the time zone by reconfiguring settings
 ```sh
 $ sudo dpkg-reconfigure tzdata
 Follow prompts and select UTC for the last prompt
 ```
-4. Time synchronization using NTP
+Time synchronization using NTP
 ```sh
 $ sudo apt-get install ntp
 $ sudo nano /etc/ntp.conf
 ```
-5. Replace server list with list from [pool.ntp.org](http://www.pool.ntp.org/en/) save and exit nano
+Replace server list with list from [pool.ntp.org](http://www.pool.ntp.org/en/) save and exit nano
 
 # Installation of Flask Application
 
 ## Install and configure Apache
 Source: [Udacity](http://blog.udacity.com/2015/03/step-by-step-guide-install-lamp-linux-apache-mysql-python-ubuntu.html)
 
-1. Install Apache
+Install Apache
 ```sh
 $ sudo apt-get install apache2
 ```
-2. Opening a web browser and inserting your IP-address will present the Apache success page
-3. To serve Python apps install mod_wsgi and python-setuptools and restart server
+Opening a web browser and inserting your IP-address will present the Apache success page
+To serve Python apps install mod_wsgi and python-setuptools and restart server
 ```sh
 $ sudo apt-get install python-setuptools libapache2-mod-wsgi
 $ sudo service apache2 restart
 ```
-4. enable mod_wsgi
+enable mod_wsgi
 ```sh
 $ sudo a2enmod wsgi
 ```
@@ -139,11 +139,11 @@ $ sudo a2enmod wsgi
 ### Deploy a Flask Application on an Ubuntu VPS 
 Source: [DigitialOcean](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
 
-1. Install additional packages for Apache to server Flask applications
+Install additional packages for Apache to server Flask applications
 ```sh
 $ sudo apt-get install libapache2-mod-wsgi python-dev
 ```
-2. Create a basic Flask app by creating folder structure and __init__.py file
+Create a basic Flask app by creating folder structure and __init__.py file
 ```sh
 $ cd /var/www
 $ sudo mkdir catalog
@@ -151,7 +151,7 @@ $ cd catalog and $ sudo mkdir catalog
 $ cd catalog and $ sudo mkdir static templates
 $ sudo nano __init__.py
 ```
-3. Add the following to __init__.py
+Add the following to __init__.py
 ```sh
 from flask import Flask  
 app = Flask(__name__)  
@@ -161,7 +161,7 @@ def hello():
 if __name__ == "__main__":  
     app.run() 
 ```
-5. Install PIP, Flask and setup virtual environment
+Install PIP, Flask and setup virtual environment
 ```sh
 $ sudo apt-get install python-pip
 $ sudo pip install virtualenv
@@ -177,7 +177,7 @@ $ sudo sudo pip install flask-seasurf
 $ sudo pip install --upgrade oauth2client
 $ sudo pip install sqlalchemy
 ```
-6. (Optional) check downloaded packages. Some packages may not install in virtual environment, create links if necessary
+(Optional) check downloaded packages. Some packages may not install in virtual environment, create links if necessary
 Source: [Udacity](https://discussions.udacity.com/t/no-module-named-sqlalchemy-white-running-project-in-linux/203592/19)
 ```sh
 Deactivate virtual environment
@@ -187,11 +187,11 @@ $ ls venv/lib/python2.7/site-packages/
 create links if not in directory (example sqlalchemy)
 ln -s /usr/lib/python2.7/dist-packages/sqlalchemy $VIRTUAL_ENV/lib/python2.7/site-packages
 ```
-7. Configuring the new virtual host files
+Configuring the new virtual host files
 ```sh
 $ sudo nano /etc/apache2/sites-available/catalog.conf
 ```
-8. Add the following to the new file
+Add the following to the new file
 ```sh
 <VirtualHost *:80>
     ServerName PUBLIC-IP-ADDRESS
@@ -211,16 +211,16 @@ $ sudo nano /etc/apache2/sites-available/catalog.conf
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 ```
-9. Enable the flask site and disable the default site
+Enable the flask site and disable the default site
 ```sh
 $ sudo a2ensite catalog
 $ sudo a2dissite 000-default
 ```
-10. Create the wsgi file
+Create the wsgi file
 ```sh
 cd /var/www/catalog and $ sudo vim catalog.wsgi
 ```
-11. Add the following to the new file
+Add the following to the new file
 ```sh
 #!/usr/bin/python
 import sys
@@ -231,7 +231,7 @@ sys.path.insert(0,"/var/www/catalog/")
 from catalog import app as application
 application.secret_key = 'Add your secret key'
 ```
-12. Restart Apache
+Restart Apache
 ```sh
 $ sudo service apache2 restart
 ```
@@ -239,15 +239,15 @@ $ sudo service apache2 restart
 ## Install and configure PostgreSQL:
 Source: [DigitialOcean](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-14-04) and [PostgreSQL.org](https://www.postgresql.org/docs/9.1/static/app-createuser.html)
 
-1. Install PostgreSQL
+Install PostgreSQL
 ```sh
 $ sudo apt-get install postgresql postgresql-contrib
 ```
-2. Do not allow remote connections, the default is no but can be changed by running
+Do not allow remote connections, the default is no but can be changed by running
 ```sh
 $ sudo vim /etc/postgresql/9.3/main/pg_hba.conf
 ```
-3.Create a new user named catalog that has limited permissions to your catalog application database
+Create a new user named catalog that has limited permissions to your catalog application database
 ```sh
 create a linux catalog user
 $ sudo adduser catalog
@@ -272,64 +272,64 @@ Exit PostgreSQL
 
 ## Install git, clone and set up your Catalog App project from your GitHub.
 
-1. Install git and configure
+Install git and configure
 ```sh
 $ sudo apt-get install git
 $ git config --global user.name 'enter your name'
 $ git config --global user.email 'enter your email'
 ```
-2. Clone Catalog app (repo at top)
+Clone Catalog app (repo at top)
 ```sh
 $ git clone http://GIT-REPO-ADDRESS-FOR-CLONE.git
 ```
-3. Move all files downloaded to /var/www/catalog/catalog/ and delete remanents of folder
-4. Deactivate access to github repo
+Move all files downloaded to /var/www/catalog/catalog/ and delete remanents of folder
+Deactivate access to github repo
 ```sh
 $ cd /var/www/catalog/ 
 $ sudo nano .htaccess
 ```
-5. Add the following
+Add the following
 ```sh
 RedirectMatch 404 /\.git
 ```
-6. Update the app where the instance of "engine = create_engine(sql db location)" to
+Update the app where the instance of "engine = create_engine(sql db location)" to
 ```sh
 engine = create_engine('postgresql://catalog:PASSWORD@localhost/catalog')
 ```
-7. Rename finalproject.py to __init__.py
+Rename finalproject.py to __init__.py
 ```sh
 $ mv finalproject.py __init__.py
 ```
-8. Re-enter psql and run seminar_populate.py
+Re-enter psql and run seminar_populate.py
 
 ## Setting up oauth for google and facebook 
 Source: [Apache.org](http://httpd.apache.org/docs/2.2/en/vhosts/name-based.html)
 
-1. Go to the google and facebook developer consoles and update the redirects and origin address
+Go to the google and facebook developer consoles and update the redirects and origin address
 ```sh
 Use the follow address for redirects, where xx is the IP-address
  http://ec2-XX-XX-XXX-XXX.us-west-2.compute.amazonaws.com/
 ```
-2. update the Apache configuration file
+update the Apache configuration file
 ```sh
 $ sudo vim /etc/apache2/sites-available/catalog.conf
 ```
-3. Add the following under "ServerAdmin"
+Add the following under "ServerAdmin"
 ```sh
 ServerAlias http://ec2-XX-XX-XXX-XXX.us-west-2.compute.amazonaws.com/
 ```
-4. restart Apache
+Restart Apache
 ```sh
 $ sudo service apache2 reload
 ```
 
 ## Additional toubleshooting
 
-1. To change/add a user password in psql
+To change/add a user password in psql
 ```sh
 => \password
 ```
-2. if receiving oauth error 'TypeError: <database.object at address> is not JSON serializable' fix dependency issue
+if receiving oauth error 'TypeError: <database.object at address> is not JSON serializable' fix dependency issue
 ```sh
 $ sudo pip install werkzeug==0.8.3
 $ sudo pip install flask==0.9
