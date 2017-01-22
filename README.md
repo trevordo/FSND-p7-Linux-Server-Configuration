@@ -19,8 +19,8 @@ The following is a summary for implementing a flask app on a VM.
 ## Step 1: Access the Amazon AWS VM 
 Source: [Udacity](https://www.udacity.com/account#!/development_environment)
 
-1. Download the Pivate Key
-2. (use your perferred terminal) Move the Private Key the ~/.ssh folder (the ~ is your environment's home directory) where Downloads is the folder location of the Key.
+Download the Pivate Key
+(use your perferred terminal) Move the Private Key the ~/.ssh folder (the ~ is your environment's home directory) where Downloads is the folder location of the Key.
 ```sh
 $ mv ~/Downloads/udacity_key.rsa ~/.ssh/
 ```
@@ -37,18 +37,19 @@ $ ssh -i ~/.ssh/udacity_key.rsa root@35.160.247.81
 Source: [Udacity](https://classroom.udacity.com/nanodegrees/nd004/parts/00413454014/modules/357367901175461/lessons/4331066009/concepts/48010894680923#) and [DigitialOcean 1](https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys--2) and [DigitalOcean 2](https://www.digitalocean.com/community/tutorials/how-to-tune-your-ssh-daemon-configuration-on-a-linux-vps)
 
 After connection to server is successful
-1. Create a new user
+
+Create a new user
 ```sh
 $ sudo adduser grader
 ```
-2. Enter a password
-3. (Optional)Additional entry of user information
-4. Modify the /etec/sudoers 
+Enter a password
+(Optional)Additional entry of user information
+Modify the /etec/sudoers 
 ```sh
 $ sudo visudo
 ```
-5. Under "# User privilege specification' and after 'root ALL=(ALL:ALL) ALL' add 'grader ALL=(ALL:ALL) ALL'
-6. Generate Public Private Key pairs and a LOCAL machine
+Under "# User privilege specification' and after 'root ALL=(ALL:ALL) ALL' add 'grader ALL=(ALL:ALL) ALL'
+Generate Public Private Key pairs and a LOCAL machine
 ```sh
 $ ssh-keygen 
 Enter file in which to save the key... Press enter to accept default directory and name 'id_rsa'
@@ -70,15 +71,15 @@ Diable password logins and change port to 220
 ```sh
 $ sudo nano /etc/ssh/sshd_config
 ```
-10. Change to Port 2200 from 20
-11. Find PasswordAuthentication and change 'yes' to 'no' and save
-12. Add 'AllowUsers grader' to the end of the file
-13. Restart ssh service
+Change to Port 2200 from 20
+Find PasswordAuthentication and change 'yes' to 'no' and save
+Add 'AllowUsers grader' to the end of the file
+Restart ssh service
 ```sh
 $ sudo service ssh restart
 ```
-14. REMOVE 'root ALL=(ALL:ALL) ALL' with visudo 
-15. Logging as user grader
+REMOVE 'root ALL=(ALL:ALL) ALL' with visudo 
+Logging as user grader
 ```sh
 $ ssh grader@35.160.247.81 -p2200 -i ~/.ssh/id_rsa
 Enter passphrase
@@ -98,8 +99,8 @@ $ sudo ufw allow 123/udp
 ## Update all currently installed packages and configure timezone
 Source: Udacity and [Timezone on Ubuntu.com](https://help.ubuntu.com/community/UbuntuTime#Using_the_Command_Line_.28terminal.29)
 
-1. Log in as user grader
-2. Update the list of packages information and upgrade packages
+Log in as user grader
+Update the list of packages information and upgrade packages
 ```sh
 $ sudo apt-get update
 $ sudo sudo apt-get upgrade
